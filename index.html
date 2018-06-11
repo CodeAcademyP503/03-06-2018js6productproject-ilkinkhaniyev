@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="css/main.css">
+    <script src="js/main.js"></script>
+    <title>js lab</title>
+</head>
+
+<body>
+    <form action="#">
+        <label for="name">Name:</label>
+        <input type="text" id="name">
+        <br>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" required>
+        <br>
+
+        <label for="password">Entry Password:</label>
+        <input type="password" id="password">
+        <br>
+
+        <label for="passwordrew">Reentry Password</label>
+        <input type="password" id="passwordrew">
+        <br>
+
+        <input type="submit" value="Register" onclick="register()">
+    </form>
+
+    <hr>
+
+    <form action="#">
+
+        <label for="email">Email:</label>
+        <input type="email" id="email_login" required>
+        <br>
+
+        <label for="password">Entry Password:</label>
+        <input type="password" id="password_login">
+        <br>
+
+        <input type="button" value="Login" onclick="login()">
+    </form>
+
+    <script>
+        function $(id) {
+            return document.getElementById(id);
+        }
+
+        let people = [];
+
+        // bu Login funksiyasi obyekt yaradir
+
+        // function Login(email, password) {
+
+        //     this.email = email;
+        //     this.password = password;
+
+        //     return this;
+        // }
+
+        // yuxaridaki funksiyani EcmaScript 6 -da yeni class formasinda yaradiriq
+        class Login {
+            constructor(email, password) {
+                this._email = email;
+                this._password = password;
+            }
+            get Email(){
+                return this._email;
+            }
+            set Email(n){
+                if(n.indexOf("@")!= -1){
+                    this._email = n;
+                }
+            }
+
+            get Password(){
+                return this._password;
+            }
+            set Password(n){
+                this._password = n;
+            }
+        }
+        // bu Person funksiyasi obyekt yaradir
+        // function Person(name, email, password) {
+
+        //     this.name = name;
+        //     this.__proto__ = new Login(email, password);
+
+        //     return this;
+        // }
+
+            // yuxaridaki funksiyani EcmaScript 6 -da yeni class formasinda yaradiriq
+        class Person extends Login {
+            constructor(name, email, password) {
+                super(email, password);
+                this._name = name;
+            }
+            get Name(){
+                return this._name;
+            }
+            set Name(n){
+                this._name = n;
+            }
+        }
+
+        function login() {
+            let _email = $("email_login").value;
+            let _password = $("password_login").value;
+
+            let finded = false;
+
+            let user = null; //bir user teyin etdik.
+
+            for (let k of people) {
+                if (k.Email == _email && k.Password == _password) {
+                    finded = true;
+                    user = k; //eger adam tapilibsa onu people arrayinin k-nincisina beraber edirik ki hemin adam user olsun.
+                }
+            }
+
+
+            if (finded) {
+                localStorage.User = JSON.stringify(user); //user-e yazilan tapilmish adami JSON ile string-e cevirib localStorage-deki User-e teyin edirik.
+                location.href = "products.html"; //teyin etdikden sonra deyirik ki products.html sehifesine kec.
+            } else {
+                alert("Daxil olmadiniz");
+            }
+        }
+
+        function register() {
+
+            //get elements
+            let name = $("name").value;
+            let email = $("email").value;
+            let password = $("password").value;
+
+            //create person object
+            if ($("password").value == $("passwordrew").value) {
+
+                if ($("email").value.indexOf("@") > 0) {
+
+                    let person = new Person(name, email, password);
+
+                    people.push(person);
+
+                }
+            } else {
+                alert("password incorrect");
+            }
+
+            return false;
+        }
+
+        document.addEventListener("DOMContentLoaded", function (event) {
+            if (localStorage.User != null) {
+                document.write("Siz artiq daxil olmusunuz");
+            }
+        });
+
+    </script>
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <!-- <p>
+        <script>
+            if (localStorage.Product != null) {
+                let products = JSON.parse(localStorage.Product);
+            }
+        </script>
+    </p> -->
+
+    <form action="#" id="newProductForm">
+        <label for="name">Name:</label>
+        <input type="text" id="productName">
+        <br>
+
+        <label for="model">Model:</label>
+        <input type="text" id="productModel">
+        <br>
+
+        <label for="price">Price:</label>
+        <input type="text" id="productPrice">
+        <br>
+
+        <label for="color">Color:</label>
+        <input type="color" id="productColor">
+        <br>
+
+        <input type="submit" value="Add">
+        <input type="button" value="Back" onclick="back()">
+    </form>
+
+    <div id="newProductsResult">
+
+    </div>
+
+    <script>
+        function $(id) {
+            return document.getElementById(id);
+        }
+
+        $("newProductForm").addEventListener("submit", saveNewProduct);
+
+
+        function saveNewProduct() {
+
+            let newProductName = $("productName").value;
+            let newProductModel = $("productModel").value;
+            let newProductPrice = $("productPrice").value;
+            let newProductColor = $("productColor").value;
+
+            // let newProduct = {
+            //     name: newProductName,
+            //     model: newProductModel,
+            //     price: newProductPrice,
+            //     color: newProductColor,
+            // }
+
+            class Product {
+                constructor(name, model, price, color) {
+                    this._name = name;
+                    this._model = model;
+                    this._price = price;
+                    this._color = color;
+                }
+
+                get Name() {
+                    return this._name;
+                }
+                set Name(n) {
+                    this._name = n;
+                }
+
+                get Model() {
+                    return this._model;
+                }
+                set Model(n) {
+                    this._model = n;
+                }
+
+                get Price() {
+                    return this._price;
+                }
+                set Price(n) {
+                    this._price = n;
+                }
+
+                get Color() {
+                    return this._color;
+                }
+                set Color(n) {
+                    this._color = n;
+                }
+            }
+            let newProduct = new Product(newProductName, newProductModel, newProductPrice, newProductColor);
+
+
+            if (localStorage.getItem("newProducts") == null) {
+
+                let newProducts = [];
+                
+                newProducts.push(newProduct);
+
+                localStorage.setItem("newProducts", JSON.stringify(newProducts));
+            } else {
+                let newProducts = JSON.parse(localStorage.getItem("newProducts"));
+
+                newProducts.push(newProduct);
+
+                localStorage.setItem("newProducts", JSON.stringify(newProducts));
+            }
+        }
+
+        //newProducts arrayini cagirmaq(fetch newProducts)
+        // function fetchNewProducts() {
+        //     let newProducts = JSON.parse(localStorage.getItem("newProducts"));
+
+        //     let productsResult = $("newProductsResult");
+
+        //     productsResult.innerHTML = "";
+        //     for (let i = 0; i < newProducts.length; i++) {
+        //         let name = newProducts[i].Name;
+        //         let model = newProducts[i].model;
+        //         let price = newProducts[i].price;
+        //         let color = newProducts[i].color;
+
+        //         productsResult.innerHTML += '<div class="newProduct">' +
+        //             '<h3>' + name + '</h3>' +
+        //             '<p>' + model + '</p>' +
+        //             '<p>' + price + '</p>' +
+        //             '<p>' + color + '</p>' +
+        //             '</div>';
+        //     }
+        // }
+        // class Product {
+        //     constructor(name, model, price, color) {
+        //         this._name = name;
+        //         this._model = model;
+        //         this._price = price;
+        //         this._color = color;
+        //     }
+        // }
+
+
+        // function back() {
+        //     if (localStorage.Product != null) {
+        //         document.location.href = "products.html";
+        //     }
+        // }
+
+        // function Add() {
+        //     let _name = $("name").value;
+        //     let _model = $("model").value;
+        //     let _price = $("price").value;
+        //     let _color = $("color").value;
+
+
+
+        //     let product = new Product(_name, _model, _price, _color); 
+
+
+        //     let i =  ("pro" + (+localStorage.count++));  
+        //     localStorage.setItem(i, JSON.stringify(product));
+        //     alert("Elave olundu");
+
+        // }
+
+    </script>
+</body>
+
+</html>
